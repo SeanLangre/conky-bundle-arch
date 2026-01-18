@@ -1,0 +1,83 @@
+conky.config = {
+    -- General
+    background = true,
+    update_interval = 2,
+    cpu_avg_samples = 4,
+    diskio_avg_samples = 10,
+    net_avg_samples = 2,
+    double_buffer = true,
+    no_buffers = true,
+    text_buffer_size = 2048,
+    temperature_unit = 'celsius',
+    imlib_cache_size = 0,
+    
+    -- Placement
+    alignment = 'top_right',
+    gap_x = 15,
+    gap_y = 0,
+    minimum_height = 600,
+    minimum_width = 300,
+    maximum_width = 300,
+    xinerama_head = 2,
+    
+    -- Graphical
+    border_inner_margin = 10,
+    border_outer_margin = 5,
+    border_width = 0,
+    default_bar_width = 80,
+    default_bar_height = 10,
+    default_gauge_height = 25,
+    default_gauge_width = 40,
+    default_graph_height = 40,
+    default_graph_width = 0,
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_shades = false,
+    draw_outline = false,
+    
+    -- Text
+    extra_newline = false,
+    format_human_readable = true,
+    font = 'Roboto Mono:size=10',
+    max_user_text = 16384,
+    override_utf8_locale = true,
+    short_units = true,
+    use_spacer = 'none',
+    use_xft = true,
+    xftalpha = 1,
+    
+    -- Window
+    own_window = true,
+    own_window_type = 'override',
+    own_window_transparent = false,
+    double_buffer = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_title = 'stock_conky',
+
+    -- Colors
+    default_color = '#D9DDE2',
+    color1 = '#FF0000',
+    color2 = '#597AA1',
+    color3 = '#cccccc',
+    color4 = '#D9BC83',
+    color5 = '#00BFFF',
+    color6 = '#FFFFFF',
+    color7 = '#1F7411',
+    color8 = '#FFA726',
+    color9 = '#F1544B',
+};
+
+conky.text = [[
+${color lightgrey}Stock Indices${color white}
+${hr 2}
+${color lightgrey}S&P 500
+${color grey}1Y:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1y} ${color grey}6M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 6m} ${color grey}1M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1m} ${color grey}1W:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1w}
+
+${color lightgrey}DAX
+${color grey}1Y:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1y} ${color grey}6M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 6m} ${color grey}1M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1m} ${color grey}1W:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1w}
+
+${color lightgrey}OMX30
+${color grey}1Y:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1y} ${color grey}6M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 6m} ${color grey}1M:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1m} ${color grey}1W:${color white}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1w}
+${hr 2}
+${color grey}Updated: ${color white}${time %Y-%m-%d %H:%M}
+]]
