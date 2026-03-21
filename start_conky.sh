@@ -1,5 +1,5 @@
 #!/bin/bash
-sleep 5
+sleep 10
 conky -c $HOME/.config/conky/stock/stock_indices.conkyrc --daemonize
 conky -c $HOME/.config/conky/titus/system_conky.conkyrc --daemonize
 
