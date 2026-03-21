@@ -14,10 +14,13 @@ SCRIPT_DIR = Path(__file__).parent
 NOTIF_FILE = SCRIPT_DIR / "notifications.txt"
 NOTIF_TMP = SCRIPT_DIR / "notifications.tmp"
 HISTORY_FILE = SCRIPT_DIR / "history.json"
+DEBUG_LOG = SCRIPT_DIR / "debug_apps.log"
 MAX_NOTIFICATIONS = 8
 MAX_CHANNEL_LEN = 20
 MAX_MESSAGE_LEN = 45
 DEDUP_WINDOW = 2  # seconds
+
+DISCORD_NAMES = ("discord", "vesktop", "vencord")
 
 notifications = deque(maxlen=MAX_NOTIFICATIONS)
 history = deque(maxlen=MAX_NOTIFICATIONS)
@@ -76,6 +79,20 @@ def is_duplicate(summary, body):
     return False
 
 
+def add_notification(summary, body):
+    """Add a notification if not a duplicate."""
+    if not is_duplicate(summary, body):
+        history.append({"summary": summary, "body": body})
+        notifications.append(format_notification(summary, body))
+        save_notifications()
+
+
+def debug_log(msg):
+    """Append debug info to log file."""
+    with open(DEBUG_LOG, "a") as f:
+        f.write(f"{time.strftime('%H:%M:%S')} {msg}\n")
+
+
 def try_gio_monitor():
     """Try using GLib/Gio BecomeMonitor approach."""
     try:
@@ -88,14 +105,17 @@ def try_gio_monitor():
     try:
         bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
 
-        # Try BecomeMonitor
-        match_rule = "type='method_call',interface='org.freedesktop.Notifications',member='Notify'"
+        # Monitor both regular notifications and portal notifications
+        match_rules = [
+            "type='method_call',interface='org.freedesktop.Notifications',member='Notify'",
+            "type='method_call',interface='org.freedesktop.portal.Notification',member='AddNotification'",
+        ]
         bus.call_sync(
             'org.freedesktop.DBus',
             '/org/freedesktop/DBus',
             'org.freedesktop.DBus.Monitoring',
             'BecomeMonitor',
-            GLib.Variant('(asu)', ([match_rule], 0)),
+            GLib.Variant('(asu)', (match_rules, 0)),
             None,
             Gio.DBusCallFlags.NONE,
             -1,
@@ -103,21 +123,48 @@ def try_gio_monitor():
         )
 
         def on_message(connection, message, incoming):
-            if message.get_member() != 'Notify':
-                return
+            member = message.get_member()
+            interface = message.get_interface()
             body = message.get_body()
             if body is None:
                 return
-            # Notify args: (app_name, replaces_id, app_icon, summary, body, actions, hints, timeout)
-            app_name = body.get_child_value(0).get_string()
-            if app_name.lower() not in ("discord", "vesktop", "vencord"):
-                return
-            summary = body.get_child_value(3).get_string()
-            notif_body = body.get_child_value(4).get_string()
-            if not is_duplicate(summary, notif_body):
-                history.append({"summary": summary, "body": notif_body})
-                notifications.append(format_notification(summary, notif_body))
-                save_notifications()
+
+            debug_log(f"member={member} interface={interface} sender={message.get_sender()}")
+
+            if member == 'Notify':
+                # Standard notification: (app_name, replaces_id, app_icon, summary, body, ...)
+                app_name = body.get_child_value(0).get_string()
+                debug_log(f"  Notify app_name={app_name}")
+                if app_name.lower() not in DISCORD_NAMES:
+                    return
+                summary = body.get_child_value(3).get_string()
+                notif_body = body.get_child_value(4).get_string()
+                add_notification(summary, notif_body)
+
+            elif member == 'AddNotification':
+                # Portal notification: (id, notification_dict)
+                # The dict contains 'title' and 'body' keys
+                try:
+                    notif_id = body.get_child_value(0).get_string()
+                    notif_dict = body.get_child_value(1)
+                    debug_log(f"  AddNotification id={notif_id} type={notif_dict.get_type_string()}")
+                    # Extract title and body from the variant dict
+                    summary = ""
+                    notif_body = ""
+                    n_entries = notif_dict.n_children()
+                    for i in range(n_entries):
+                        entry = notif_dict.get_child_value(i)
+                        key = entry.get_child_value(0).get_string()
+                        val = entry.get_child_value(1).get_variant()
+                        debug_log(f"    key={key} val={val.get_type_string()}")
+                        if key == "title":
+                            summary = val.get_string()
+                        elif key == "body":
+                            notif_body = val.get_string()
+                    if summary or notif_body:
+                        add_notification(summary, notif_body)
+                except Exception as e:
+                    debug_log(f"  AddNotification parse error: {e}")
 
         bus.add_filter(on_message)
 
@@ -127,7 +174,8 @@ def try_gio_monitor():
         loop.run()
         return True
 
-    except Exception:
+    except Exception as e:
+        debug_log(f"BecomeMonitor failed: {e}")
         return False
 
 
@@ -136,21 +184,13 @@ def dbus_monitor_fallback():
     cmd = [
         "dbus-monitor",
         "--session",
-        "type='method_call',interface='org.freedesktop.Notifications',member='Notify'"
+        "type='method_call',interface='org.freedesktop.Notifications',member='Notify'",
     ]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
 
     load_history()
     save_notifications()
 
-    # Parse dbus-monitor text output
-    # Notify calls look like:
-    #   method call ... member=Notify
-    #   string "Discord"       <- app_name
-    #   uint32 0               <- replaces_id
-    #   string "discord"       <- app_icon
-    #   string "Channel Name"  <- summary
-    #   string "Message text"  <- body
     in_notify = False
     string_count = 0
     app_name = ""
@@ -184,13 +224,9 @@ def dbus_monitor_fallback():
                 elif string_count == 4:
                     body = value
                     in_notify = False
-                    if app_name.lower() in ("discord", "vesktop", "vencord"):
-                        if not is_duplicate(summary, body):
-                            history.append({"summary": summary, "body": body})
-                            notifications.append(format_notification(summary, body))
-                            save_notifications()
+                    if app_name.lower() in DISCORD_NAMES:
+                        add_notification(summary, body)
 
-            # Reset if we hit a new method call before finishing
             if line.startswith('method call') and 'member=Notify' not in line:
                 in_notify = False
 
@@ -202,6 +238,10 @@ def dbus_monitor_fallback():
 
 def main():
     signal.signal(signal.SIGTERM, lambda *_: exit(0))
+
+    # Clear debug log on start
+    with open(DEBUG_LOG, "w") as f:
+        f.write("")
 
     if not try_gio_monitor():
         dbus_monitor_fallback()
