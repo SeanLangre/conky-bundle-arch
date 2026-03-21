@@ -15,8 +15,8 @@ conky.config = {
     alignment = 'bottom_left',
     gap_x = 15,
     gap_y = 0,
-    minimum_height = 100,
-    maximum_height = 100,
+    minimum_height = 220,
+    maximum_height = 220,
     minimum_width = 300,
     maximum_width = 300,
     xinerama_head = 2,
@@ -71,7 +71,7 @@ conky.config = {
 };
 
 conky.text = [[
-    ${color5}Twitch Chat: ${color}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
-    ${color}${hr 2}
-    ${color}${execpi 1 cat $HOME/.config/conky/twitch_chat/chat.txt 2>/dev/null || echo "Chat not connected"}
+${color5}Twitch Chat: ${color}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
+${color}${hr 2}
+${color}${execpi 1 cat $HOME/.config/conky/twitch_chat/chat.txt 2>/dev/null || echo "Chat not connected"}
 ]]

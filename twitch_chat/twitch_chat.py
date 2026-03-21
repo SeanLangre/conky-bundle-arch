@@ -10,7 +10,7 @@ from collections import deque
 SCRIPT_DIR = Path(__file__).parent
 CONFIG_FILE = SCRIPT_DIR / "config.txt"
 CHAT_FILE = SCRIPT_DIR / "chat.txt"
-MAX_MESSAGES = 5
+MAX_MESSAGES = 10
 
 def get_channel():
     """Read channel name from config file."""

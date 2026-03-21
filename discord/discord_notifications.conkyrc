@@ -12,8 +12,8 @@ conky.config = {
     imlib_cache_size = 0,
 
     -- Placement
-    alignment = 'bottom_right',
-    gap_x = 15,
+    alignment = 'top_left',
+    gap_x = 345,
     gap_y = 0,
     minimum_height = 200,
     maximum_height = 200,
@@ -71,7 +71,7 @@ conky.config = {
 };
 
 conky.text = [[
-    ${color5}Discord Notifications${color}
-    ${color}${hr 2}
-    ${color}${execpi 2 cat $HOME/.config/conky/discord/notifications.txt 2>/dev/null || echo "Not connected"}
+${color5}Discord Notifications${color}
+${color}${hr 2}
+${color}${execpi 2 cat $HOME/.config/conky/discord/notifications.txt 2>/dev/null || echo "Not connected"}
 ]]

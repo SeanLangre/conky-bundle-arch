@@ -12,9 +12,9 @@ conky.config = {
     imlib_cache_size = 0,
     
     -- Placement
-    alignment = 'top_right',
-    gap_x = 15,
-    gap_y = 0,
+    alignment = 'top_left',
+    gap_x = 345,
+    gap_y = 240,
     minimum_height = 200,
     maximum_height = 200,
     minimum_width = 300,

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Monitor D-Bus for Discord notifications and write to file for conky display."""
 
+import json
 import os
 import signal
 import subprocess
@@ -12,13 +13,33 @@ from collections import deque
 SCRIPT_DIR = Path(__file__).parent
 NOTIF_FILE = SCRIPT_DIR / "notifications.txt"
 NOTIF_TMP = SCRIPT_DIR / "notifications.tmp"
+HISTORY_FILE = SCRIPT_DIR / "history.json"
 MAX_NOTIFICATIONS = 8
 MAX_CHANNEL_LEN = 20
 MAX_MESSAGE_LEN = 45
 DEDUP_WINDOW = 2  # seconds
 
 notifications = deque(maxlen=MAX_NOTIFICATIONS)
+history = deque(maxlen=MAX_NOTIFICATIONS)
 last_notif = {"summary": "", "body": "", "time": 0}
+
+
+def load_history():
+    """Load notification history from disk on startup."""
+    try:
+        with open(HISTORY_FILE, "r") as f:
+            entries = json.load(f)
+        for entry in entries[-MAX_NOTIFICATIONS:]:
+            history.append(entry)
+            notifications.append(format_notification(entry["summary"], entry["body"]))
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        pass
+
+
+def save_history():
+    """Persist raw notification data to disk."""
+    with open(HISTORY_FILE, "w") as f:
+        json.dump(list(history), f)
 
 
 def save_notifications():
@@ -30,6 +51,7 @@ def save_notifications():
             for entry in notifications:
                 f.write(entry + "\n")
     os.rename(NOTIF_TMP, NOTIF_FILE)
+    save_history()
 
 
 def format_notification(summary, body):
@@ -88,16 +110,18 @@ def try_gio_monitor():
                 return
             # Notify args: (app_name, replaces_id, app_icon, summary, body, actions, hints, timeout)
             app_name = body.get_child_value(0).get_string()
-            if app_name.lower() != "discord":
+            if app_name.lower() not in ("discord", "vesktop", "vencord"):
                 return
             summary = body.get_child_value(3).get_string()
             notif_body = body.get_child_value(4).get_string()
             if not is_duplicate(summary, notif_body):
+                history.append({"summary": summary, "body": notif_body})
                 notifications.append(format_notification(summary, notif_body))
                 save_notifications()
 
         bus.add_filter(on_message)
 
+        load_history()
         save_notifications()
         loop = GLib.MainLoop()
         loop.run()
@@ -116,6 +140,7 @@ def dbus_monitor_fallback():
     ]
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
 
+    load_history()
     save_notifications()
 
     # Parse dbus-monitor text output
@@ -159,8 +184,9 @@ def dbus_monitor_fallback():
                 elif string_count == 4:
                     body = value
                     in_notify = False
-                    if app_name.lower() == "discord":
+                    if app_name.lower() in ("discord", "vesktop", "vencord"):
                         if not is_duplicate(summary, body):
+                            history.append({"summary": summary, "body": body})
                             notifications.append(format_notification(summary, body))
                             save_notifications()
 
