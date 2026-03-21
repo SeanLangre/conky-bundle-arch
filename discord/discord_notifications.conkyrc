@@ -10,9 +10,9 @@ conky.config = {
     text_buffer_size = 2048,
     temperature_unit = 'celsius',
     imlib_cache_size = 0,
-    
+
     -- Placement
-    alignment = 'top_right',
+    alignment = 'bottom_right',
     gap_x = 15,
     gap_y = 0,
     minimum_height = 200,
@@ -20,7 +20,7 @@ conky.config = {
     minimum_width = 300,
     maximum_width = 300,
     xinerama_head = 2,
-    
+
     -- Graphical
     border_inner_margin = 10,
     border_outer_margin = 5,
@@ -36,7 +36,7 @@ conky.config = {
     default_graph_colour = '#a7c080',
     draw_shades = false,
     draw_outline = false,
-    
+
     -- Text
     extra_newline = false,
     format_human_readable = true,
@@ -47,14 +47,14 @@ conky.config = {
     use_spacer = 'none',
     use_xft = true,
     xftalpha = 1,
-    
+
     -- Window
     own_window = true,
     own_window_type = 'override',
     own_window_transparent = false,
     double_buffer = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    own_window_title = 'stock_conky',
+    own_window_title = 'discord_conky',
     own_window_colour = '#1e2326',
 
     -- Colors (Everforest Dark)
@@ -71,16 +71,7 @@ conky.config = {
 };
 
 conky.text = [[
-${color5}Stock Indices${color}
-${hr 2}
-${color5}S&P 500
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1w}
-
-${color5}DAX
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1w}
-
-${color5}OMX30
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1w}
-${hr 2}
-${color5}Updated: ${color}${time %Y-%m-%d %H:%M}
+    ${color5}Discord Notifications${color}
+    ${color}${hr 2}
+    ${color}${execpi 2 cat $HOME/.config/conky/discord/notifications.txt 2>/dev/null || echo "Not connected"}
 ]]

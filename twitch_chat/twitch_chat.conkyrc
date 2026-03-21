@@ -33,6 +33,7 @@ conky.config = {
     default_graph_width = 0,
     draw_borders = false,
     draw_graph_borders = true,
+    default_graph_colour = '#a7c080',
     draw_shades = false,
     draw_outline = false,
     
@@ -54,22 +55,23 @@ conky.config = {
     double_buffer = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     own_window_title = 'system_conky',
+    own_window_colour = '#1e2326',
 
-    -- Colors
-    default_color = '#D9DDE2',
-    color1 = '#FF0000',
-    color2 = '#597AA1',
-    color3 = '#cccccc',
-    color4 = '#D9BC83',
-    color5 = '#00BFFF',
-    color6 = '#FFFFFF',
-    color7 = '#1F7411',
-    color8 = '#FFA726',
-    color9 = '#F1544B',
+    -- Colors (Everforest Dark)
+    default_color = '#d3c6aa',
+    color1 = '#e67e80',
+    color2 = '#7fbbb3',
+    color3 = '#d3c6aa',
+    color4 = '#dbbc7f',
+    color5 = '#a7c080',
+    color6 = '#d3c6aa',
+    color7 = '#a7c080',
+    color8 = '#dbbc7f',
+    color9 = '#e67e80',
 };
 
 conky.text = [[
-    ${color purple}Twitch Chat: ${color white}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
-    ${color white}${hr 2}
-    ${color white}${execpi 1 cat $HOME/.config/conky/twitch_chat/chat.txt 2>/dev/null || echo "Chat not connected"}
+    ${color5}Twitch Chat: ${color}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
+    ${color}${hr 2}
+    ${color}${execpi 1 cat $HOME/.config/conky/twitch_chat/chat.txt 2>/dev/null || echo "Chat not connected"}
 ]]
