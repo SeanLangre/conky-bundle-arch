@@ -84,6 +84,9 @@ def main():
                             message = message[:47] + "..."
                         if len(username) > 12:
                             username = username[:12]
+                        # Escape conky special characters
+                        message = message.replace('\\', '\\\\').replace('$', '$$').replace('#', '')
+                        username = username.replace('\\', '\\\\').replace('$', '$$').replace('#', '')
                         messages.append(f"{username}: {message}")
                         save_messages(messages)
 

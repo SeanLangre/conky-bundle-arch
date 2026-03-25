@@ -57,12 +57,26 @@ def save_notifications():
     save_history()
 
 
+def strip_bidi(text):
+    """Remove Unicode bidirectional control characters."""
+    return re.sub(r'[\u2066-\u2069\u200e\u200f\u202a-\u202e]', '', text)
+
+
+def escape_conky(text):
+    """Escape characters that conky would interpret."""
+    return text.replace('\\', '\\\\').replace('$', '$$').replace('#', '')
+
+
 def format_notification(summary, body):
     """Format a notification line with conky color codes."""
+    summary = strip_bidi(summary)
+    body = strip_bidi(body)
     if len(summary) > MAX_CHANNEL_LEN:
         summary = summary[:MAX_CHANNEL_LEN - 3] + "..."
     if len(body) > MAX_MESSAGE_LEN:
         body = body[:MAX_MESSAGE_LEN - 3] + "..."
+    summary = escape_conky(summary)
+    body = escape_conky(body)
     return f"${{color5}}{summary}${{color}}: {body}"
 
 
@@ -76,6 +90,17 @@ def is_duplicate(summary, body):
     last_notif["summary"] = summary
     last_notif["body"] = body
     last_notif["time"] = now
+    return False
+
+
+def is_discord_source(*values):
+    """Return True when any source hint matches Discord clients."""
+    for value in values:
+        if not value:
+            continue
+        lower_value = value.lower()
+        if any(name in lower_value for name in DISCORD_NAMES):
+            return True
     return False
 
 
@@ -151,6 +176,9 @@ def try_gio_monitor():
                     # Extract title and body from the variant dict
                     summary = ""
                     notif_body = ""
+                    desktop_entry = ""
+                    app_name = ""
+                    default_action = ""
                     n_entries = notif_dict.n_children()
                     for i in range(n_entries):
                         entry = notif_dict.get_child_value(i)
@@ -161,6 +189,15 @@ def try_gio_monitor():
                             summary = val.get_string()
                         elif key == "body":
                             notif_body = val.get_string()
+                        elif key in ("desktop-entry", "desktop_entry"):
+                            desktop_entry = val.get_string()
+                        elif key in ("app-name", "app_name"):
+                            app_name = val.get_string()
+                        elif key == "default-action":
+                            default_action = val.get_string()
+                    if not is_discord_source(notif_id, desktop_entry, app_name, default_action):
+                        debug_log("  AddNotification ignored (non-Discord source)")
+                        return
                     if summary or notif_body:
                         add_notification(summary, notif_body)
                 except Exception as e:
