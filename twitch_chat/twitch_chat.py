@@ -87,7 +87,9 @@ def main():
                         # Escape conky special characters
                         message = message.replace('\\', '\\\\').replace('$', '$$').replace('#', '')
                         username = username.replace('\\', '\\\\').replace('$', '$$').replace('#', '')
-                        messages.append(f"{username}: {message}")
+                        # Pick a consistent color per username (colors 1-9 defined in conkyrc)
+                        color_num = (hash(username.lower()) % 9) + 1
+                        messages.append(f"${{color{color_num}}}{username}${{color}}: {message}")
                         save_messages(messages)
 
             except socket.timeout:
