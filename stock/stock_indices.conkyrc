@@ -52,10 +52,12 @@ conky.config = {
     own_window = true,
     own_window_type = 'normal',
     own_window_transparent = false,
+    own_window_argb_visual = true,
+    own_window_argb_value = 180,
     double_buffer = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     own_window_title = 'stock_conky',
-    own_window_colour = '#1e2326',
+    own_window_colour = '#1e1e2e',
 
     -- Colors (Everforest Dark)
     default_color = '#d3c6aa',
