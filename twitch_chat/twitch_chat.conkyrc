@@ -50,11 +50,11 @@ conky.config = {
     
     -- Window
     own_window = true,
-    own_window_type = 'override',
+    own_window_type = 'normal',
     own_window_transparent = false,
     double_buffer = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    own_window_title = 'system_conky',
+    own_window_title = 'twitch_conky',
     own_window_colour = '#1e2326',
 
     -- Colors (Everforest Dark)
