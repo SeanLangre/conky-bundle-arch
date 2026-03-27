@@ -14,7 +14,7 @@ conky.config = {
     -- Placement
     alignment = 'bottom_left',
     gap_x = 365,
-    gap_y = 340,
+    gap_y = 356,
     minimum_height = 190,
     maximum_height = 190,
     minimum_width = 300,
@@ -48,15 +48,12 @@ conky.config = {
     use_xft = true,
     xftalpha = 1,
     
-    -- Lua
-    lua_load = '$HOME/.config/conky/twitch_chat/twitch_chat.lua',
-
     -- Window
     own_window = true,
     own_window_type = 'normal',
     own_window_transparent = false,
     own_window_argb_visual = true,
-    own_window_argb_value = 180,
+    own_window_argb_value = 26,
     double_buffer = true,
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     own_window_title = 'twitch_conky',
@@ -76,7 +73,7 @@ conky.config = {
 };
 
 conky.text = [[
-${lua conky_start_twitch}${color5}Twitch Chat: ${color}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
+${color5}Twitch Chat: ${color}${exec cat $HOME/.config/conky/twitch_chat/config.txt}
 ${color}${hr 2}
-${lua_parse conky_chat}
+${color}${execpi 1 cat $HOME/.config/conky/twitch_chat/chat.txt 2>/dev/null || echo "Chat not connected"}
 ]]

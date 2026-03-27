@@ -2,9 +2,10 @@
 CONKY_DIR="$HOME/.config/conky"
 
 # Kill existing instances
+pkill -x conky
 pkill -f twitch_chat.py
 pkill -f discord_notifications.py
-pkill conky
+pkill -f get_stocks.py
 sleep 2
 
 # stock
@@ -17,16 +18,11 @@ sleep 1
 
 # twitch
 python3 "$CONKY_DIR/twitch_chat/twitch_chat.py" &
-TWITCH_PY=$!
-conky -c "$CONKY_DIR/twitch_chat/twitch_chat.conkyrc" &
-TWITCH_CONKY=$!
+disown $!
+conky -c "$CONKY_DIR/twitch_chat/twitch_chat.conkyrc" --daemonize
+sleep 1
 
 # discord
 python3 "$CONKY_DIR/discord/discord_notifications.py" &
-DISCORD_PY=$!
-conky -c "$CONKY_DIR/discord/discord_notifications.conkyrc" &
-DISCORD_CONKY=$!
-
-# Kill python when conky dies
-( wait $TWITCH_CONKY;  kill $TWITCH_PY  2>/dev/null ) &
-( wait $DISCORD_CONKY; kill $DISCORD_PY 2>/dev/null ) &
+disown $!
+conky -c "$CONKY_DIR/discord/discord_notifications.conkyrc" --daemonize
