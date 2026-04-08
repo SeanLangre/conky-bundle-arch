@@ -2,6 +2,7 @@
 """Fetch stock index performance using yfinance."""
 
 import sys
+import math
 import yfinance as yf
 
 INDICES = {
@@ -23,20 +24,30 @@ def get_performance(symbol, period="1y"):
         ticker = yf.Ticker(symbol)
         hist = ticker.history(period=period)
 
-        if hist.empty or len(hist) < 2:
+        if hist.empty:
             return None
 
-        old_price = hist['Close'].iloc[0]
-        current_price = hist['Close'].iloc[-1]
+        closes = hist["Close"].dropna()
+        if len(closes) < 2:
+            return None
+
+        old_price = float(closes.iloc[0])
+        current_price = float(closes.iloc[-1])
+
+        if not math.isfinite(old_price) or not math.isfinite(current_price) or old_price <= 0:
+            return None
 
         performance = ((current_price - old_price) / old_price) * 100
+        if not math.isfinite(performance):
+            return None
+
         return performance
     except Exception:
         return None
 
 def format_with_color(perf):
     """Format performance with conky color codes."""
-    if perf is None:
+    if perf is None or not math.isfinite(perf):
         return "N/A"
     color = "green" if perf >= 0 else "red"
     return f"${{color {color}}}{perf:+.2f}%${{color}}"

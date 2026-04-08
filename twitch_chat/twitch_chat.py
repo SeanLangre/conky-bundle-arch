@@ -80,6 +80,9 @@ def main():
                     match = msg_pattern.match(line)
                     if match:
                         username, message = match.groups()
+                        # Strip control characters and null bytes
+                        message = re.sub(r'[\x00-\x1f\x7f]', '', message)
+                        username = re.sub(r'[\x00-\x1f\x7f]', '', username)
                         if len(message) > 50:
                             message = message[:47] + "..."
                         if len(username) > 12:
