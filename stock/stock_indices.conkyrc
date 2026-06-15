@@ -40,7 +40,7 @@ conky.config = {
     -- Text
     extra_newline = false,
     format_human_readable = true,
-    font = 'Roboto Mono:size=10',
+    font = 'Roboto:size=10',
     max_user_text = 16384,
     override_utf8_locale = true,
     short_units = true,
