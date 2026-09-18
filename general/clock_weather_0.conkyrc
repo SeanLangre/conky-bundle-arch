@@ -1,0 +1,61 @@
+conky.config = {
+    -- General
+    background = true,
+    update_interval = 2,
+    cpu_avg_samples = 4,
+    diskio_avg_samples = 10,
+    net_avg_samples = 2,
+    double_buffer = true,
+    no_buffers = true,
+    text_buffer_size = 2048,
+    temperature_unit = 'celsius',
+    imlib_cache_size = 0,
+
+    -- Placement
+    alignment = 'top_left',
+    gap_x = 25,
+    gap_y = 25,
+    minimum_height = 100,
+    maximum_height = 100,
+    minimum_width = 300,
+    maximum_width = 300,
+    xinerama_head = 0,
+
+    -- Graphical
+    border_inner_margin = 10,
+    border_outer_margin = 5,
+    border_width = 0,
+    draw_borders = false,
+    draw_graph_borders = true,
+    default_graph_colour = '#a7c080',
+    draw_shades = false,
+    draw_outline = false,
+
+    -- Text
+    extra_newline = false,
+    format_human_readable = true,
+    font = 'Roboto:size=10',
+    max_user_text = 16384,
+    override_utf8_locale = true,
+    short_units = true,
+    use_spacer = 'none',
+    use_xft = true,
+    xftalpha = 1,
+
+    -- Window
+    own_window = true,
+    own_window_type = 'normal',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_title = 'clock_weather_conky_0',
+    own_window_colour = '#1a1e1e2e',
+
+    -- Colors (Everforest Dark)
+    default_color = '#d3c6aa',
+    color6 = '#d3c6aa',
+};
+
+conky.text = [[
+${color6}${voffset 4}${font Roboto:size=36}${alignc}${time %H}:${time %M}${font}${color}
+${color6}${voffset 4}${font Roboto:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}${color}
+${alignc}${font Noto Color Emoji:size=12}${execi 1800 sh -c "curl -s 'wttr.in/0.000000,0.000000?format=%c'"}${font} ${font Hack:size=10}${execi 1800 sh -c "curl -s 'wttr.in/0.000000,0.000000?format=%t'"}${font}
+]];

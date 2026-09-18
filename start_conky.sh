@@ -13,15 +13,15 @@ conky -c "$CONKY_DIR/stock/stock_indices.conkyrc" --daemonize
 sleep 1
 
 # clock/date/weather
-conky -c "$CONKY_DIR/titus/clock_weather_0.conkyrc" --daemonize
+conky -c "$CONKY_DIR/general/clock_weather_0.conkyrc" --daemonize
 sleep 1
-conky -c "$CONKY_DIR/titus/clock_weather_1.conkyrc" --daemonize
+conky -c "$CONKY_DIR/general/clock_weather_1.conkyrc" --daemonize
 sleep 1
-conky -c "$CONKY_DIR/titus/clock_weather.conkyrc" --daemonize
+conky -c "$CONKY_DIR/general/clock_weather.conkyrc" --daemonize
 sleep 1
 
 # system
-conky -c "$CONKY_DIR/titus/system_conky.conkyrc" --daemonize
+conky -c "$CONKY_DIR/general/system_conky.conkyrc" --daemonize
 sleep 1
 
 # twitch
