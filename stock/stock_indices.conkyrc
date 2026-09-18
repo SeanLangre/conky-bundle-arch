@@ -69,17 +69,27 @@ conky.config = {
     color9 = '#e67e80',
 };
 
-conky.text = [[
+local stock1_index = os.getenv("STOCK1_INDEX") or "sp500"
+local stock1_label = os.getenv("STOCK1_LABEL") or "S&P 500"
+local stock2_index = os.getenv("STOCK2_INDEX") or "dax"
+local stock2_label = os.getenv("STOCK2_LABEL") or "DAX"
+local stock3_index = os.getenv("STOCK3_INDEX") or "omx30"
+local stock3_label = os.getenv("STOCK3_LABEL") or "OMX30"
+
+conky.text = ([[
 ${color5}Stock Indices${color}
 ${hr 2}
-${color5}S&P 500
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1w}
+${color5}__STOCK1_LABEL__
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1w}
 
-${color5}DAX
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1w}
+${color5}__STOCK2_LABEL__
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1w}
 
-${color5}OMX30
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1w}
+${color5}__STOCK3_LABEL__
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1w}
 ${hr 2}
 ${color5}Updated: ${color}${time %Y-%m-%d %H:%M}
-]]
+]])
+    :gsub("__STOCK1_LABEL__", stock1_label):gsub("__STOCK1_INDEX__", stock1_index)
+    :gsub("__STOCK2_LABEL__", stock2_label):gsub("__STOCK2_INDEX__", stock2_index)
+    :gsub("__STOCK3_LABEL__", stock3_label):gsub("__STOCK3_INDEX__", stock3_index)
