@@ -80,13 +80,13 @@ conky.text = ([[
 ${color5}Stock Indices${color}
 ${hr 2}
 ${color5}__STOCK1_LABEL__
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK1_INDEX__ 1w}
+${color5}1Y:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK1_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK1_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK1_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK1_INDEX__ 1w}
 
 ${color5}__STOCK2_LABEL__
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK2_INDEX__ 1w}
+${color5}1Y:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK2_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK2_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK2_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK2_INDEX__ 1w}
 
 ${color5}__STOCK3_LABEL__
-${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" __STOCK3_INDEX__ 1w}
+${color5}1Y:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK3_INDEX__ 1y} ${color5}6M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK3_INDEX__ 6m} ${color5}1M:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK3_INDEX__ 1m} ${color5}1W:${color}${execpi 3600 $STOCK_VENV/bin/python3 $HOME/.config/conky/stock/get_stocks.py __STOCK3_INDEX__ 1w}
 ${hr 2}
 ${color5}Updated: ${color}${time %Y-%m-%d %H:%M}
 ]])
