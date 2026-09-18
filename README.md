@@ -2,6 +2,8 @@
 
 A set of [Conky](https://github.com/brndnmtthws/conky) desktop widgets for Linux, showing system info, clock/weather, live stock indices, Twitch chat, and Discord notifications on the desktop.
 
+![Conky widgets on the desktop](info.png)
+
 ## Widgets
 
 - **general/** — Clock, date, weather, and system stats (CPU, RAM, disk, etc.)
