@@ -57,5 +57,5 @@ conky.config = {
 conky.text = [[
 ${color6}${voffset 4}${font Roboto:size=36}${alignc}${time %H}:${time %M}${font}${color}
 ${color6}${voffset 4}${font Roboto:size=12}${alignc}${time %A} ${time %B} ${time %e}, ${time %Y}${font}${color}
-${alignc}${font Noto Color Emoji:size=12}${execi 1800 sh -c "curl -s 'wttr.in/0.000000,0.000000?format=%c'"}${font} ${font Hack:size=10}${execi 1800 sh -c "curl -s 'wttr.in/0.000000,0.000000?format=%t'"}${font}
+${alignc}${font Noto Color Emoji:size=12}${execi 1800 sh -c "curl -s 'wttr.in/$WEATHER_LAT,$WEATHER_LON?format=%c'"}${font} ${font Hack:size=10}${execi 1800 sh -c "curl -s 'wttr.in/$WEATHER_LAT,$WEATHER_LON?format=%t'"}${font}
 ]];
