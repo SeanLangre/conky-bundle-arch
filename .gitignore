@@ -3,4 +3,5 @@ discord/notifications.txt
 discord/history.json
 discord/debug_apps.log
 twitch_chat/chat.txt
+twitch_chat/config.txt
 discord/__pycache__/**
