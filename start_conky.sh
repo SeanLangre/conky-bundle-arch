@@ -1,6 +1,13 @@
 #!/bin/bash
 CONKY_DIR="$HOME/.config/conky"
 
+# Load local machine paths (see .env.example)
+if [ -f "$CONKY_DIR/.env" ]; then
+	set -a
+	source "$CONKY_DIR/.env"
+	set +a
+fi
+
 # Kill existing instances
 pkill -x conky
 pkill -f twitch_chat.py

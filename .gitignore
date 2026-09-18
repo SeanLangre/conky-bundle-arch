@@ -1,3 +1,4 @@
+.env
 discord/notifications.txt
 discord/history.json
 discord/debug_apps.log

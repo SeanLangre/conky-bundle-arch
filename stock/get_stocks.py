@@ -1,4 +1,4 @@
-#!$HOME/.local/share/stock_venv/bin/python3
+#!/usr/bin/env python3
 """Fetch stock index performance using yfinance."""
 
 import sys

@@ -73,13 +73,13 @@ conky.text = [[
 ${color5}Stock Indices${color}
 ${hr 2}
 ${color5}S&P 500
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py sp500 1w}
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" sp500 1w}
 
 ${color5}DAX
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py dax 1w}
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" dax 1w}
 
 ${color5}OMX30
-${color5}1Y:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1y} ${color5}6M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 6m} ${color5}1M:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1m} ${color5}1W:${color}${execpi 3600 $HOME/.config/conky/stock/get_stocks.py omx30 1w}
+${color5}1Y:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1y} ${color5}6M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 6m} ${color5}1M:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1m} ${color5}1W:${color}${execpi 3600 "$STOCK_VENV/bin/python3" "$HOME/.config/conky/stock/get_stocks.py" omx30 1w}
 ${hr 2}
 ${color5}Updated: ${color}${time %Y-%m-%d %H:%M}
 ]]
